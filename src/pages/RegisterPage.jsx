@@ -5,7 +5,6 @@ import { useForm} from 'react-hook-form'
 import { registerSchema} from '../schema/RegisterSchema';
 import { registerApi } from '../services/authServices';
 import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 
 export default function RegisterPage() {
   const [isLoading,setIsLoading]=useState(false)

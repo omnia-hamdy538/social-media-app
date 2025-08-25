@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
 // import React, { useContext, useEffect, useState } from 'react'
-import Navbar from '../Components/Navbar'
+import Navbar from '../Component/Navbar'
 // import { counterContext } from '../contexts/CounterContext'
 import { deletePostApi, getAllPostsApi } from '../services/PostsServices'
 import LoadingScreen from './LoadingScreen'
-import Post from '../Components/Post'
+import Post from '../Component/Post'
 import CreatePost from '../Post/CreatePost'
 import { useQuery } from '@tanstack/react-query'
 import {addToast, Button, Spinner} from "@heroui/react";

@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getSinglePostApi } from '../services/PostsServices';
-import Post from '../Components/Post';
+import Post from '../Component/Post';
 import LoadingScreen from './LoadingScreen';
 export default function PostDetailsPage() {
   

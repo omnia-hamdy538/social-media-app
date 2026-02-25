@@ -11,9 +11,67 @@
     button{
         @apply cursor-pointer;
     }
+    .bg-dark-blue{
+        background-color: #2363A3
+    }
+    .bg-dark-blue-without-hover{
+        background-color: #2363A3
+    }
+    .bg-dark-dark-blue{
+         background-color: #285b8d
+    }
+
+    .bg-soft-blue{
+        background-color: #a6c7e8;
+    }
+    .bg-soft-blue:hover{
+        background-color: #8fb8e1;
+    }
+    .dark-blue{
+        color: #2363A3
+    }
+    .soft-blue{
+        color:#0063CC
+    }
+    .border-all{
+        border:solid #316ca8 4px;
+    }
+    .border-soft-blue{
+        border-bottom:solid #0063CC 2px;
+    }
+    .bg-dark-blue:hover{
+        background-color: #285b8d
+    }
+
+
+
 }
 @layer utilities{
     .container{
         @apply mx-auto;
     }
+    .cursor-pointer{
+        cursor: pointer;
+    }
+    .input {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #2563eb;
+}
+
+}
+
+
+
+
+    .custom-swiper .swiper-pagination {
+        margin-top: 30px; 
+        position: relative;
 }

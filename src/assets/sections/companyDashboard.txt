@@ -1,0 +1,72 @@
+Request
+GET /api/company/dashboard/stats?companyId=7a2c9c1d-3b1a-4f1b-9c1a-123456789abc
+
+📥 Response Example (Success)
+{
+  "statusCode": 200,
+  "meta": null,
+  "succeeded": true,
+  "message": null,
+  "errors": null,
+  "data": {
+    "totalInternships": 12,
+    "activeInternships": 5,
+    "totalApplicants": 240
+  }
+}
+2- 📌 Request
+GET /api/company/dashboard/active-internships?companyId=7a2c9c1d&page=1&pageSize=5
+
+📥 Response Example (Success)
+{
+  "statusCode": 200,
+  "meta": null,
+  "succeeded": true,
+  "message": null,
+  "errors": null,
+  "data": {
+    "currentPage": 1,
+    "totalPages": 3,
+    "totalCount": 12,
+    "pageSize": 5,
+    "hasPreviousPage": false,
+    "hasNextPage": true,
+    "meta": null,
+    "messages": [],
+    "succeeded": true,
+    "data": [
+      {
+        "title": "Backend .NET Intern",
+        "status": 1,
+        "applicationsCount": 42,
+        "createdAt": "2026-01-15T10:30:00"
+      }
+    ]
+  }
+}
+
+3- GET /api/company/dashboard/recent-applicants?companyId=7a2c9c1d&limit=3
+📥 Response Example
+{
+  "success": true,
+  "data": [
+    {
+      "fullName": "Ahmed Ali",
+      "internshipTitle": "Backend .NET Intern",
+      "appliedAt": "2026-01-30T14:20:00",
+      "status": 1
+    }
+  ],
+  "message": null
+}
+⚠️ Error Responses (Common)
+Unauthorized
+{
+  "success": false,
+  "message": "Unauthorized"
+}
+Invalid CompanyId
+{
+  "success": false,
+  "message": "Invalid company id"
+}

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Internship Completion Report</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+
+
+  .company-logo {
+    margin-left: -30px !important; 
+  }
+
+  
+ 
+    .report-container { max-width: 800px; margin: auto; padding: 20px; font-family: sans-serif; }
+    .logo-img { width: 96px; height: 96px; border-radius: 50%; border: 2px solid #e5e7eb; }
+    .tasks-list div { display: flex; gap: 8px; align-items: flex-start; }
+    .tasks-list div div:first-child { width: 4px; height: 4px; border-radius: 50%; background: black; margin-top: 6px; opacity: 0.6; }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- PDF Button -->
+  <div class="flex justify-end mt-10 me-10">
+    <button id="downloadBtn" class="bg-black text-white px-4 py-2 rounded-lg text-sm">
+      Download PDF
+    </button>
+  </div>
+<div class="report-container bg-white border border-gray-200 rounded-xl shadow p-8" id="report-container">
+
+
+
+  <!-- Header -->
+  <header class="flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+      <img id="platformLogo" src="" alt="Platform Logo" class="logo-img">
+      <img id="companyLogo" src="" alt="Company Logo" class="logo-img company-logo">
+      <div>
+        <div id="companyName" class="text-sm text-gray-600 font-medium"></div>
+        <div class="text-xs text-gray-400">Student Internship Office</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Title -->
+  <div class="text-center mb-3">
+    <h1 class="text-3xl font-semibold">Internship Completion Report</h1>
+    <p class="text-sm text-gray-500 mt-1">Official record of internship completion, skills and evaluation</p>
+  </div>
+
+  <!-- Intern Information -->
+  <section class="border border-gray-100 shadow  rounded-lg p-6 mb-3">
+    <h2 class="text-lg font-medium mb-4">Intern Information</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm text-gray-700">
+      <div><div class="text-xs text-gray-500">Full Name</div><div id="candidateName" class="font-medium"></div></div>
+      <div><div class="text-xs text-gray-500">Department / Major</div><div id="candidateMajor" class="font-medium"></div></div>
+      <div><div class="text-xs text-gray-500">Intern Position</div><div id="internshipTitle" class="font-medium"></div></div>
+      <div><div class="text-xs text-gray-500">Start Date</div><div id="startDate" class="font-medium"></div></div>
+      <div><div class="text-xs text-gray-500">End Date</div><div id="endDate" class="font-medium"></div></div>
+      <div><div class="text-xs text-gray-500">Total Hours</div><div id="totalHours" class="font-medium"></div></div>
+      <div><div class="text-xs text-gray-500">Company Name</div><div id="companyName2" class="font-medium"></div></div>
+    </div>
+  </section>
+
+  <!-- Internship Details -->
+  <section class="border border-gray-100 shadow  rounded-lg p-6 mb-3">
+    <h2 class="text-lg font-medium mb-4">Internship Details</h2>
+
+    <div class="mb-4">
+      <div class="text-sm text-gray-500 mb-2">Tasks and Responsibilities</div>
+      <div id="tasksList" class="text-sm text-gray-800 leading-relaxed space-y-2 tasks-list"></div>
+    </div>
+
+    <div class="mb-4">
+      <div class="text-sm text-gray-500 mb-2">Skills Gained</div>
+      <div id="skillsGained" class="text-sm text-gray-800 leading-relaxed"></div>
+    </div>
+
+    <div class="mb-4">
+      <div class="text-sm text-gray-500 mb-2">Performance Evaluation</div>
+      <div id="performanceEval" class="text-sm text-gray-800 leading-relaxed"></div>
+    </div>
+
+    <div>
+      <div class="text-sm text-gray-500 mb-2">Additional Notes / Comments</div>
+      <div id="comments" class="text-sm text-gray-800 leading-relaxed"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-6 text-sm text-gray-700">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+      <div><div class="text-xs text-gray-500 mb-2">Supervisor</div><div id="supervisor" class="font-medium"></div></div>
+      <div class="hidden md:block"></div>
+      <div><div class="text-xs text-gray-500">Date of Report</div><div id="reportDate" class="font-medium"></div></div>
+    </div>
+    <div class="mt-6 text-xs text-gray-400">Report Key: <span id="reportKey"></span></div>
+  </footer>
+
+</div>
+
+<script>
+  const base_url = "http://frosaty.runasp.net"; // حطي هنا نفس الـ base URL بتاعك
+  const applicationId = "661F79B7-67A2-4ECD-B7E1-D10C373E1CDD";
+  const reportId = "6f2ff38b-e71f-46dd-cac0-08de67f56d99";
+
+  async function fetchData() {
+    try {
+      const relatedRes = await axios.get(`${base_url}/api/Application/ReportRelatedData?applicationId=${applicationId}`);
+      const reportRes = await axios.get(`${base_url}/api/Application/Report/${reportId}`);
+      
+      const relatedData = relatedRes.data.data;
+      const reportData = reportRes.data.data;
+
+      // Header
+document.getElementById("platformLogo").src = "/src/assets/sections/forsaty.jpg";
+document.getElementById("companyLogo").src = "/src/assets/sections/comp.png";
+      document.getElementById("companyName").textContent = relatedData.companyName;
+      document.getElementById("companyName2").textContent = relatedData.companyName;
+
+      // Intern info
+      document.getElementById("candidateName").textContent = relatedData.candidateName;
+      document.getElementById("candidateMajor").textContent = relatedData.candidateMajor;
+      document.getElementById("internshipTitle").textContent = relatedData.internshipTitle;
+      document.getElementById("startDate").textContent = reportData.startDate.split("T")[0];
+      document.getElementById("endDate").textContent = reportData.endDate.split("T")[0];
+      document.getElementById("totalHours").textContent = reportData.totalHours;
+
+      // Internship details
+      const tasksList = document.getElementById("tasksList");
+      relatedData.internshipResponsibilities?.split("<br>").forEach(task => {
+        const cleanTask = task.replace("-", "").trim();
+        if (cleanTask) {
+          const div = document.createElement("div");
+          div.innerHTML = `<div></div><div>${cleanTask}</div>`;
+          tasksList.appendChild(div);
+        }
+      });
+
+      document.getElementById("skillsGained").textContent = reportData.acquiredSkills;
+      document.getElementById("performanceEval").textContent = reportData.evaluation;
+      document.getElementById("comments").textContent = reportData.comments;
+
+      // Footer
+      document.getElementById("supervisor").textContent = relatedData.internshipSupervisor;
+      document.getElementById("reportDate").textContent = reportData.createdAt.split("T")[0];
+      document.getElementById("reportKey").textContent = reportData.uniqueKey;
+
+    } catch (error) {
+      console.error("Error fetching report data", error);
+      alert("Error fetching report data");
+    }
+  }
+
+  fetchData();
+
+  // PDF Download
+document.getElementById("downloadBtn").addEventListener("click", () => {
+  const element = document.getElementById("report-container"); // هذا هو العنصر اللي هيتحول لـ PDF
+  html2pdf()
+    .set({
+      margin: [10,10,10,10],
+      filename: "internship-report.pdf",
+      image: { type: "jpeg", quality: 0.98 },
+      html2canvas: { scale: 2, scrollY: 0 },
+      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" }
+    })
+    .from(element)
+    .save();
+});
+</script>
+
+</body>
+</html>
